@@ -1,5 +1,11 @@
 package io.millesabords.r2dbc;
 
+import io.millesabords.r2dbc.entity.Movie;
+import io.millesabords.r2dbc.entity.Robot;
+import io.millesabords.r2dbc.entity.RobotWithMovie;
+import io.millesabords.r2dbc.repository.MovieRepository;
+import io.millesabords.r2dbc.repository.RobotWithMovieRepository;
+import io.millesabords.r2dbc.repository.RobotRepository;
 import io.r2dbc.spi.ConnectionFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +20,8 @@ import reactor.test.StepVerifier;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RobotAppTest {
@@ -25,7 +33,7 @@ public class RobotAppTest {
     private MovieRepository movieRepository;
 
     @Autowired
-    private RobotMovieRepository robotMovieRepository;
+    private RobotWithMovieRepository robotWithMovieRepository;
 
     @Autowired
     private DatabaseClient databaseClient;
@@ -58,13 +66,23 @@ public class RobotAppTest {
 
     @Test
     public void whenSearchForBB8Movie_then1IsExpected() {
+        robotWithMovieRepository.findByName("BB-8").log()
+                .doOnNext(System.out::println)
+                .as(StepVerifier::create)
+                //.expectNextCount(1)
+                .assertNext(robotMovie -> assertThat(robotMovie.getMovie()).isNotNull())
+                .verifyComplete();
+    }
+
+    @Test
+    public void whenSearchForBB8WithMovie_then1IsExpected() {
         robotRepository.findByName("BB-8").log()
                 .flatMap(robot -> movieRepository
                         .findByTitle(robot.getMovie()).log()
-                        .flatMap(movie -> Mono.just(new RobotMovie(robot.getId(), robot.getName(), movie))))
+                        .flatMap(movie -> Mono.just(new RobotWithMovie(robot.getId(), robot.getName(), movie))))
                 .doOnNext(System.out::println)
                 .as(StepVerifier::create)
-                .expectNextCount(1)
+                .assertNext(robotMovie -> assertThat(robotMovie.getMovie()).isNotNull())
                 .verifyComplete();
     }
 

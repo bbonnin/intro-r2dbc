@@ -1,4 +1,4 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.base;
 
 import io.r2dbc.spi.Connection;
 import io.r2dbc.spi.ConnectionFactories;
@@ -7,7 +7,6 @@ import io.r2dbc.spi.Result;
 import io.reactivex.rxjava3.core.Single;
 import org.apache.commons.io.IOUtils;
 import org.reactivestreams.Publisher;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -20,19 +19,18 @@ public class IntroR2dbc {
     public static void main(String[] args) throws IOException {
         init();
 
-        //simpleQuery();
-        complexQuery();
+        simpleQueryWithReactor("R2-D2");
+        simpleQueryWithRx("R2-D2");
+        complexQuery("R2-D2");
     }
 
-    private static void complexQuery() {
-        String name = "R2-D2";
-
+    private static void complexQuery(String name) {
         ConnectionFactory connectionFactory = ConnectionFactories.get("r2dbc:h2:mem:///robot_db");
 
         Publisher<? extends Connection> connectionPublisher = connectionFactory.create();
 
         Function<Connection, Publisher<? extends Result>> mapper = connection -> connection
-                .createStatement("SELECT * FROM robot r, movie m WHERE r.movie = m.title AND r.name = $1")
+                .createStatement("SELECT * FROM robot r INNER JOIN movie m ON r.movie = m.title WHERE r.name = $1")
                 .bind("$1", name)
                 .execute();
 
@@ -43,10 +41,7 @@ public class IntroR2dbc {
                 .subscribe();
     }
 
-    private static void simpleQuery() {
-
-        String name = "R2-D2";
-
+    private static void simpleQueryWithReactor(String name) {
         ConnectionFactory connectionFactory = ConnectionFactories.get("r2dbc:h2:mem:///robot_db");
 
         Publisher<? extends Connection> connectionPublisher = connectionFactory.create();
@@ -61,15 +56,21 @@ public class IntroR2dbc {
                 .flatMap(result -> result.map((row, metadata) -> row.get("movie", String.class)))
                 .doOnNext(System.out::println)
                 .subscribe();
+    }
 
-        /*Single.fromPublisher(connectionFactory.create()).toFlowable()
+    private static void simpleQueryWithRx(String name) {
+        ConnectionFactory connectionFactory = ConnectionFactories.get("r2dbc:h2:mem:///robot_db");
+
+        Publisher<? extends Connection> connectionPublisher = connectionFactory.create();
+
+        Single.fromPublisher(connectionPublisher).toFlowable()
                 .flatMap(connection -> connection
                         .createStatement("SELECT name FROM robot")
                         .execute())
                 .flatMap(result -> result
                         .map((row, rowMetadata) -> row.get("name", String.class)))
                 .doOnNext(System.out::println)
-                .subscribe();*/
+                .subscribe();
     }
 
     private static void init() throws IOException {

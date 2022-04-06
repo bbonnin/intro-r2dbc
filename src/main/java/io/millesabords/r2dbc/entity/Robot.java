@@ -1,4 +1,4 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,12 +12,12 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-public class Movie {
+public class Robot {
 
     @Id
     private Long id;
 
-    private String title;
+    private String name;
 
-    private String director;
+    private String movie;
 }

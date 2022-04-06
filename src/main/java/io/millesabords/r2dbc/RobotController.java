@@ -1,5 +1,6 @@
 package io.millesabords.r2dbc;
 
+import io.millesabords.r2dbc.entity.Robot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,34 +16,39 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RobotController {
 
-    private final RobotRepository robotRepository;
+    private final RobotService robotService;
 
     @GetMapping(value = "/robot-stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Robot> getRobotStream() {
         //Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
         //return Flux.zip(robotRepository.findAll(), interval, (robot, time) -> robot);
-        return robotRepository.findAll();
+        return robotService.findAll();
     }
 
-    @GetMapping("/robot")
+    @GetMapping("/robots")
     public Flux<Robot> getAllRobots() {
-        return robotRepository.findAll();
+        return robotService.findAll();
     }
 
     @PostMapping("/robot")
     public Mono<Robot> create(@RequestParam String name, @RequestParam String movie) {
-        Robot newRobot = Robot.builder().name(name).movie(movie).build();
-        return robotRepository.save(newRobot);
+        return robotService.createRobot(name, movie);
+    }
+
+    @PostMapping("/robot-movie")
+    public Mono<Void> create(@RequestParam String name, @RequestParam String movie,
+                              @RequestParam String director) {
+        return robotService.createAgainRobotAndMovie(name, movie, director);
     }
 
     @GetMapping("/movies")
     public Mono<List<String>> getAllMovies() {
-        return robotRepository.getMovies().collectList();
+        return robotService.getMovies().collectList();
     }
 
     @GetMapping("/directors")
     public Mono<List<String>> getAllDirectors() {
-        return robotRepository.getDirectors().collectList();
+        return robotService.getDirectors().collectList();
     }
 
 }

@@ -35,19 +35,90 @@
 			"response": []
 		},
 		{
-			"name": "Get robots",
+			"name": "Create robot and movie",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/robot",
+					"raw": "http://localhost:8080/robot-movie?name=Robby&movie=Forbidden Planet&director=Fred M. Wilcox",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"robot"
+						"robot-movie"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Robby"
+						},
+						{
+							"key": "movie",
+							"value": "Forbidden Planet"
+						},
+						{
+							"key": "director",
+							"value": "Fred M. Wilcox"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get robots",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/robots",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"robots"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get directors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/directors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"directors"
 					]
 				}
 			},

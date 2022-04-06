@@ -1,4 +1,4 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,13 +15,14 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table("robot")
-public class RobotMovie {
+public class RobotWithMovie {
 
     @Id
     private Long id;
 
     private String name;
 
+    /* Does not work... */
     @OneToOne
     @JoinColumn(name = "movie", referencedColumnName = "title")
     private Movie movie;

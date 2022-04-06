@@ -1,5 +1,6 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.repository;
 
+import io.millesabords.r2dbc.entity.Robot;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;

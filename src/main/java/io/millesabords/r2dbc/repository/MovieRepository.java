@@ -1,5 +1,6 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.repository;
 
+import io.millesabords.r2dbc.entity.Movie;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Mono;
 

@@ -9,11 +9,8 @@ https://docs.spring.io/spring-boot/docs/2.4.x/reference/htmlsingle/#howto-initia
 
 ##  Slides
 
-
-Reactive Streams
-* 
-
 Introduction
+* Reactive Spring
 * Spring
   * Reactive streams
   * Java 8
@@ -52,8 +49,9 @@ Flux<Robot> rows = client
 * DatabaseClient est proche d'un jdbctemlate
 * Mais il existe aussi la notion de Repository
   * ideal si vous êtes habitué aux repository JPA
+
 ```java
-import io.millesabords.r2dbc.Robot;
+import io.millesabords.r2dbc.entity.Robot;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
@@ -63,7 +61,7 @@ interface RobotRepository extends ReactiveCrudRepository<Robot, Long> {
 } 
 
 repository.findByName("r2d2")
-        .doOnEach(r -> System.out.println(r.name));
+        .doOnEach(r->System.out.println(r.name));
 ```
 * Very functional API
 * Support transactions
