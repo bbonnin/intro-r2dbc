@@ -1,0 +1,3 @@
+db:
+  url-suffix: h2:mem:///robot_db;DB_CLOSE_DELAY=-1;
+  username: sa

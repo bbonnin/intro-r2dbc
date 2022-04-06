@@ -1,0 +1,76 @@
+{
+	"info": {
+		"_postman_id": "046ba5a3-eb53-4f79-9540-fd735e6fd3f8",
+		"name": "R2DBC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create robot",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/robot?name=Robby&movie=Forbidden Planet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"robot"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Robby"
+						},
+						{
+							"key": "movie",
+							"value": "Forbidden Planet"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get robots",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/robot",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"robot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Stream robots",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/robot-stream",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"robot-stream"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
