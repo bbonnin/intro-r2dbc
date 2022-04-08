@@ -10,15 +10,13 @@ https://docs.spring.io/spring-boot/docs/2.4.x/reference/htmlsingle/#howto-initia
 ##  Slides
 
 Introduction
-* Reactive Spring
-* Spring
-  * Reactive streams
-  * Java 8
+
+R2DBC
 * Design principles
   * embrace reactive types and patterns - adopter des types et des modèles réactifs
   * non-blocking, all the way to the database - non bloquant, jusqu'à la base de données
-  * shrink the driver SPI - rétrécir le pilote SPI (service provider interface)
-  * enable multiple "humane" APIs - permettre de multiples API "humaines"
+  * shrink the driver SPI (service provider interface)
+  * enable multiple "humane" APIs 
 * Driver SPI: ConnectionFactory
   * Publisher<Connection> create()
   * ConnectionFactoryMetadata getMetadate()
@@ -28,11 +26,8 @@ Introduction
   * for developpers:
     * createBatch
     * createStatement
-* Version content (à voir de quoi on parle ici, ce qui est important c'est que le dev d'un SPI peut prendre du temps)
-  * Quelles bases sont supportées (postgres, ... et les bases dans le cloud comme Google CLoud Spanner)
   
 Spring Data R2DBC
-* Exemple de code pour rentrer directement:
 ```java
 DatabaseClient client = DatabaseClient.create(connectionFactory);
 
@@ -47,7 +42,7 @@ Flux<Robot> rows = client
 * Named parameters
 * How to consume the data (fetching all rows)
 * DatabaseClient est proche d'un jdbctemlate
-* Mais il existe aussi la notion de Repository
+* And existing ReactiveXXXRepository
   * ideal si vous êtes habitué aux repository JPA
 
 ```java
@@ -138,7 +133,7 @@ rxtx.execute(status -> {
   * Spec docs
 
 * Il existe d'autres drivers et projets autour du non-blocking
-  * NDBC, Jasync, Vert.x
+  * Jasync, Vert.x
   * Hibernate Rx
   * OJDBC 20 with Reactive extensions (Oracle)
 

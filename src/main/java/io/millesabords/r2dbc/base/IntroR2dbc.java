@@ -1,5 +1,6 @@
 package io.millesabords.r2dbc.base;
 
+import io.millesabords.r2dbc.entity.Robot;
 import io.r2dbc.spi.Connection;
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
@@ -19,9 +20,17 @@ public class IntroR2dbc {
     public static void main(String[] args) throws IOException {
         init();
 
-        simpleQueryWithReactor("R2-D2");
-        simpleQueryWithRx("R2-D2");
-        complexQuery("R2-D2");
+        //simpleQueryWithReactor("R2-D2");
+        //simpleQueryWithRx("R2-D2");
+        //complexQuery("R2-D2");
+        observe();
+    }
+
+    private static void observe() {
+        ConnectionFactory connectionFactory = ConnectionFactories.get(
+                "r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.base.SimpleListener");
+
+        simpleQueryWithReactor("R2-D2", connectionFactory);
     }
 
     private static void complexQuery(String name) {
@@ -42,19 +51,26 @@ public class IntroR2dbc {
     }
 
     private static void simpleQueryWithReactor(String name) {
-        ConnectionFactory connectionFactory = ConnectionFactories.get("r2dbc:h2:mem:///robot_db");
+        simpleQueryWithReactor(name, ConnectionFactories.get("r2dbc:h2:mem:///robot_db"));
+    }
 
+    private static void simpleQueryWithReactor(String name, ConnectionFactory connectionFactory) {
         Publisher<? extends Connection> connectionPublisher = connectionFactory.create();
 
-        Function<Connection, Publisher<? extends Result>> mapper = connection -> connection
-                .createStatement("SELECT * FROM robot where name = $1")
-                .bind("$1", name)
+        Function<Connection, Publisher<? extends Result>> statementMapper = connection -> connection
+                //.createStatement("SELECT * FROM robot WHERE name = $1")
+                .createStatement("SELECT * FROM robot")
+                //.bind("$1", name)
                 .execute();
 
-        Mono.from(connectionPublisher).log()
-                .flatMapMany(mapper)
-                .flatMap(result -> result.map((row, metadata) -> row.get("movie", String.class)))
+        Mono<Connection> connection = Mono.from(connectionFactory.create());
+
+        connection
+                .flatMapMany(statementMapper)
+                .flatMap(result -> result.map((row, metadata) -> Robot.builder().name(row.get("movie", String.class)).build()))
                 .doOnNext(System.out::println)
+                .doOnError(exc -> System.out.println("SNIF..." + exc))
+                .doOnComplete(() -> System.out.println("FINI !"))
                 .subscribe();
     }
 

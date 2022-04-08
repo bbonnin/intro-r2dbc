@@ -11,11 +11,11 @@ public class IntroReactor {
 
     public static void main(String[] args) {
         //showFlux();
-        showFluxAlternative();
+        //showFluxAlternative();
         //showFluxWithError();
         //showFluxWithErrorHandling();
         //showMono();
-        //showBackPressure();
+        showBackPressure();
         //showBackPressureWithStrategy();
     }
 
@@ -94,19 +94,21 @@ public class IntroReactor {
         Flux<Integer> data = Flux.range(1, 10).log();
 
         data
-                .doOnRequest(r -> System.out.println("=== Request of " + r))    // Request consumer
+                //.doOnRequest(r -> System.out.println("=== Request of " + r))    // Request consumer
                 .subscribe(new BaseSubscriber<>() {
                     @Override
                     protected void hookOnSubscribe(Subscription subscription) {
+                        //super.hookOnSubscribe(subscription);
                         request(1); // Replaces the call to replace(unbound)
                     }
 
                     @Override
                     protected void hookOnNext(Integer value) {
-                        request(1);
-                        System.err.println("=== " + value);
+                        System.out.println("\t=== PROCESSING " + value);
                         if (value == 3) {
                             cancel();
+                        } else {
+                            request(1);
                         }
                     }
                 });
