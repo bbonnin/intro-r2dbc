@@ -28,7 +28,7 @@ public class IntroR2dbc {
 
     private static void observe() {
         ConnectionFactory connectionFactory = ConnectionFactories.get(
-                "r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.base.SimpleListener");
+                "r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.StatementExecListener");
 
         simpleQueryWithReactor("R2-D2", connectionFactory);
     }

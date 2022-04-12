@@ -16,39 +16,39 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RobotController {
 
-    private final RobotService robotService;
+    private final RepositoryExample repositoryExample;
 
     @GetMapping(value = "/robot-stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Robot> getRobotStream() {
         //Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
         //return Flux.zip(robotRepository.findAll(), interval, (robot, time) -> robot);
-        return robotService.findAll();
+        return repositoryExample.findAll();
     }
 
     @GetMapping("/robots")
     public Flux<Robot> getAllRobots() {
-        return robotService.findAll();
+        return repositoryExample.findAll();
     }
 
     @PostMapping("/robot")
     public Mono<Robot> create(@RequestParam String name, @RequestParam String movie) {
-        return robotService.createRobot(name, movie);
+        return repositoryExample.createRobot(name, movie);
     }
 
     @PostMapping("/robot-movie")
     public Mono<Void> create(@RequestParam String name, @RequestParam String movie,
                               @RequestParam String director) {
-        return robotService.createAgainRobotAndMovie(name, movie, director);
+        return repositoryExample.createAgainRobotAndMovie(name, movie, director);
     }
 
     @GetMapping("/movies")
     public Mono<List<String>> getAllMovies() {
-        return robotService.getMovies().collectList();
+        return repositoryExample.getMovies().collectList();
     }
 
     @GetMapping("/directors")
     public Mono<List<String>> getAllDirectors() {
-        return robotService.getDirectors().collectList();
+        return repositoryExample.getDirectors().collectList();
     }
 
 }

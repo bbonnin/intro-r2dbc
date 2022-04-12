@@ -1,0 +1,19 @@
+db:
+  url-suffix: proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.StatementExecListener&DB_CLOSE_DELAY=-1;
+  username: sa
+  #url-suffix: postgresql://localhost:15432/robot_db
+  #username: postgres
+
+spring:
+  sql:
+    init:
+      mode: always
+  r2dbc:
+    url: r2dbc:${db.url-suffix}
+    username: ${db.username}
+
+logging:
+  level:
+    root: INFO
+    org.springframework.r2dbc: INFO
+    io.millesabords: DEBUG
