@@ -22,6 +22,7 @@ https://docs.spring.io/spring-boot/docs/2.4.x/reference/htmlsingle/#howto-initia
 
 TODO:
 * Entity Callback
+* Multi-tenancy: routing factory
 
 
 ##  Slides
