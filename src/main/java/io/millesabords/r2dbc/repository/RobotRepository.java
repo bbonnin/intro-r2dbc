@@ -7,7 +7,6 @@ import reactor.core.publisher.Flux;
 
 public interface RobotRepository extends ReactiveCrudRepository<Robot, Long> {
 
-    //@Query("select name, movie from robot r where r.name = :name")
     Flux<Robot> findByName(String name);
 
     @Query("select name, movie from robot r where lower(r.movie) like concat('%', lower(:movie), '%')")

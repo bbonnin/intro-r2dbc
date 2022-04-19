@@ -20,17 +20,35 @@ public class IntroR2dbc {
     public static void main(String[] args) throws IOException {
         init();
 
-        //simpleQueryWithReactor("R2-D2");
-        //simpleQueryWithRx("R2-D2");
-        //complexQuery("R2-D2");
-        observe();
+        simpleQueryWithReactor("R2-D2", "r2dbc:h2:mem:///robot_db");
+
+        //simpleQueryWithReactor("R2-D2",
+        //        "r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.StatementExecListener");
     }
 
-    private static void observe() {
-        ConnectionFactory connectionFactory = ConnectionFactories.get(
-                "r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.StatementExecListener");
+    private static void simpleQueryWithReactor(String name, String url) {
 
-        simpleQueryWithReactor("R2-D2", connectionFactory);
+        ConnectionFactory connectionFactory = ConnectionFactories.get(url);
+
+        Publisher<? extends Connection> connectionPublisher = connectionFactory.create();
+
+        Function<Connection, Publisher<? extends Result>> statementMapper = connection -> connection
+                //.createStatement("SELECT * FROM robot WHERE name = $1")
+                //.bind("$1", name)
+                .createStatement("SELECT * FROM robot")
+                .execute();
+
+        Mono.from(connectionPublisher)
+                .flatMapMany(connection -> connection
+                        .createStatement("SELECT * FROM robot WHERE name = $1")
+                        .bind("$1", name)
+                        .execute())
+                .flatMap(result -> result.map((row, metadata) ->
+                        Robot.builder().name(row.get("name", String.class)).build())).log()
+                .doOnNext(System.out::println)
+                .doOnError(exc -> System.out.println("SNIF..." + exc))
+                .doOnComplete(() -> System.out.println("FINI !"))
+                .subscribe();
     }
 
     private static void complexQuery(String name) {
@@ -47,30 +65,6 @@ public class IntroR2dbc {
                 .flatMapMany(mapper)
                 .flatMap(result -> result.map((row, metadata) -> row.get("director", String.class)))
                 .doOnNext(System.out::println)
-                .subscribe();
-    }
-
-    private static void simpleQueryWithReactor(String name) {
-        simpleQueryWithReactor(name, ConnectionFactories.get("r2dbc:h2:mem:///robot_db"));
-    }
-
-    private static void simpleQueryWithReactor(String name, ConnectionFactory connectionFactory) {
-        Publisher<? extends Connection> connectionPublisher = connectionFactory.create();
-
-        Function<Connection, Publisher<? extends Result>> statementMapper = connection -> connection
-                //.createStatement("SELECT * FROM robot WHERE name = $1")
-                .createStatement("SELECT * FROM robot")
-                //.bind("$1", name)
-                .execute();
-
-        Mono<Connection> connection = Mono.from(connectionFactory.create());
-
-        connection
-                .flatMapMany(statementMapper)
-                .flatMap(result -> result.map((row, metadata) -> Robot.builder().name(row.get("movie", String.class)).build()))
-                .doOnNext(System.out::println)
-                .doOnError(exc -> System.out.println("SNIF..." + exc))
-                .doOnComplete(() -> System.out.println("FINI !"))
                 .subscribe();
     }
 
