@@ -28,6 +28,7 @@ TODO:
 ##  Slides
 
 Introduction
+* JPA est construit au dessus de JDBC qi est bloquant !
 
 R2DBC
 * Design principles
@@ -59,9 +60,7 @@ Flux<Robot> rows = client
 * Fluent API
 * Named parameters
 * How to consume the data (fetching all rows)
-* DatabaseClient est proche d'un jdbctemlate
 * And existing ReactiveXXXRepository
-  * ideal si vous êtes habitué aux repository JPA
 
 ```java
 import io.millesabords.r2dbc.entity.Robot;
@@ -106,8 +105,6 @@ Demo
     * Reactor context
   * Dans spring: ReactiveTransactionManager
 
-Demo
-* Meme code avec l'annotation @TRansactional
 
 ```java
 @Transactional
@@ -164,7 +161,7 @@ rxtx.execute(status -> {
 * Specific to Postgresl
   * LISTEN
 ```java
-this.connection.createStatement("LISTEN login_event_notification")
+this.connection.createStatement("LISTEN some_events")
         .execute()
         .flatMap(PostgresqlResult::getRowsUpdated)
         .subscribe();
@@ -196,6 +193,3 @@ Flux<CharSequence> getStream() {
 website: r2dbc.io
 twitter: @r2dbc
 source: github.com/r2dbc
-
-
-JPA est construit au dessus de JDBC qi est bloquant

@@ -1,16 +1,13 @@
-db:
-  #url-suffix: h2:mem:///robot_db;DB_CLOSE_DELAY=-1;
-  #username: sa
-  url-suffix: postgresql://localhost:15432/robot_db
-  username: postgres
 
 spring:
   sql:
     init:
       mode: always
   r2dbc:
-    url: r2dbc:${db.url-suffix}
-    username: ${db.username}
+    url: r2dbc:postgresql://localhost:15432/robot_db
+    username: postgres
+    #url: r2dbc:h2:mem:///robot_db;DB_CLOSE_DELAY=-1;
+    #username: sa
 
 logging:
   level:

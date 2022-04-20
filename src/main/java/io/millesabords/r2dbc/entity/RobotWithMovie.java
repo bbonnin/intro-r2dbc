@@ -18,7 +18,7 @@ import javax.persistence.OneToOne;
 public class RobotWithMovie {
 
     @Id
-    private Long id;
+    private Integer id;
 
     private String name;
 

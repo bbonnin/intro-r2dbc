@@ -15,7 +15,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Movie {
 
     @Id
-    private Long id;
+    private Integer id;
 
     private String title;
 

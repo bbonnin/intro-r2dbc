@@ -29,4 +29,12 @@ public class EntityTemplateExampleTest extends AbstractRobotAppTest {
                 .expectNextCount(1)
                 .verifyComplete();
     }
+
+    @Test
+    public void deleteRobotsOfMovie_whenDeleteStarWars_then3IsExpected() {
+        entityTemplateExample.deleteRobotsOfMovie("Star Wars").log()
+                .as(StepVerifier::create)
+                .expectNext(3)
+                .verifyComplete();
+    }
 }

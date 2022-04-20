@@ -1,10 +1,15 @@
 package io.millesabords.r2dbc.base;
 
 import io.millesabords.r2dbc.entity.Robot;
+import io.r2dbc.h2.H2ConnectionConfiguration;
+import io.r2dbc.h2.H2ConnectionFactory;
+import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
+import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 import io.r2dbc.spi.Connection;
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.Result;
+import io.r2dbc.spi.Row;
 import io.reactivex.rxjava3.core.Single;
 import org.apache.commons.io.IOUtils;
 import org.reactivestreams.Publisher;
@@ -20,35 +25,74 @@ public class IntroR2dbc {
     public static void main(String[] args) throws IOException {
         init();
 
-        simpleQueryWithReactor("R2-D2", "r2dbc:h2:mem:///robot_db");
+        ConnectionFactory pgConnectionFactory = new PostgresqlConnectionFactory(
+                PostgresqlConnectionConfiguration.builder()
+                        .host("localhost")
+                        .port(15432)
+                        .username("postgres")
+                        .database("robot_db")
+                        .build()
+        );
 
-        //simpleQueryWithReactor("R2-D2",
+        ConnectionFactory h2ConnectionFactory = new H2ConnectionFactory(
+                H2ConnectionConfiguration.builder()
+                        .inMemory("robot_db")
+                        .username("sa")
+                        .property("DB_CLOSE_DELAY", "-1")
+                        .build()
+        );
+
+
+        runBatchWithReactor();
+
+        //runQueryWithReactor("Star Wars", "r2dbc:h2:mem:///robot_db;DB_CLOSE_DELAY=-1;");
+
+        //runQueryWithReactor("R2-D2",
         //        "r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.StatementExecListener");
     }
 
-    private static void simpleQueryWithReactor(String name, String url) {
+    private static void runQueryWithReactor(String movie, String url) {
 
         ConnectionFactory connectionFactory = ConnectionFactories.get(url);
 
         Publisher<? extends Connection> connectionPublisher = connectionFactory.create();
 
         Function<Connection, Publisher<? extends Result>> statementMapper = connection -> connection
-                //.createStatement("SELECT * FROM robot WHERE name = $1")
-                //.bind("$1", name)
-                .createStatement("SELECT * FROM robot")
+                .createStatement("SELECT * FROM robot WHERE movie = $1")
+                .bind("$1", movie)
                 .execute();
 
         Mono.from(connectionPublisher)
-                .flatMapMany(connection -> connection
-                        .createStatement("SELECT * FROM robot WHERE name = $1")
-                        .bind("$1", name)
-                        .execute())
-                .flatMap(result -> result.map((row, metadata) ->
-                        Robot.builder().name(row.get("name", String.class)).build())).log()
-                .doOnNext(System.out::println)
+                .flatMapMany(statementMapper)
+                .flatMap(result -> result.map((row, metadata) -> buildRobot(row))).log()
+                .doOnNext(robot -> System.out.println("\t" + robot))
                 .doOnError(exc -> System.out.println("SNIF..." + exc))
                 .doOnComplete(() -> System.out.println("FINI !"))
                 .subscribe();
+    }
+
+    private static void runBatchWithReactor() {
+
+        ConnectionFactory connectionFactory = ConnectionFactories.get("r2dbc:h2:mem:///robot_db");
+
+        Mono.from(connectionFactory.create())
+                .flatMapMany(connection -> connection
+                        .createBatch()
+                        .add("INSERT INTO robot (name, movie) VALUES ('Robby', 'Forbidden Planet')")
+                        .add("INSERT INTO robot (name, movie) VALUES ('Michel', 'Planete Sardou')")
+                        .execute())
+                .doOnComplete(() -> System.out.println("FINI !"))
+                .subscribe();
+
+        runQueryWithReactor("Planete Sardou", "r2dbc:h2:mem:///robot_db");
+    }
+
+    private static Robot buildRobot(Row row) {
+        return Robot.builder()
+                .id(row.get("id", Integer.class))
+                .name(row.get("name", String.class))
+                .movie(row.get("movie", String.class))
+                .build();
     }
 
     private static void complexQuery(String name) {

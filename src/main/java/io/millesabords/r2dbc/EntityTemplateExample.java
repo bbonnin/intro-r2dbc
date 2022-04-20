@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import static org.springframework.data.relational.core.query.Criteria.where;
 import static org.springframework.data.relational.core.query.Query.query;
@@ -28,5 +29,16 @@ public class EntityTemplateExample {
 
         return r2dbcEntityTemplate
                 .select(query(where("name").is(name)), Robot.class);
+    }
+
+    public Mono<Robot> createRobot(Robot robot) {
+        return r2dbcEntityTemplate.insert(robot);
+    }
+
+    public Mono<Integer> deleteRobotsOfMovie(String movie) {
+        return r2dbcEntityTemplate
+                .delete(Robot.class)
+                .matching(query(where("movie").like("%" + movie + "%")))
+                .all();
     }
 }

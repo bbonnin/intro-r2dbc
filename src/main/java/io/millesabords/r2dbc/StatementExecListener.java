@@ -8,6 +8,7 @@ import io.micrometer.core.instrument.logging.LoggingMeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import io.r2dbc.proxy.core.QueryExecutionInfo;
 import io.r2dbc.proxy.listener.ProxyExecutionListener;
+import io.r2dbc.proxy.listener.ProxyMethodExecutionListener;
 import io.r2dbc.proxy.support.QueryExecutionInfoFormatter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +19,7 @@ import static java.lang.Math.round;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 @Slf4j
-public class StatementExecListener implements ProxyExecutionListener {
+public class StatementExecListener implements ProxyMethodExecutionListener {
 
     private final Duration slowQueryThreshold = Duration.ofMillis(10);
 
