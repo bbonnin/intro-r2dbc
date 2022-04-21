@@ -10,5 +10,5 @@ spring:
 logging:
   level:
     root: INFO
-    org.springframework.r2dbc: INFO
+    org.springframework.r2dbc: DEBUG
     io.millesabords: DEBUG

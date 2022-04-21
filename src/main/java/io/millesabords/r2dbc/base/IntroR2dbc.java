@@ -25,6 +25,8 @@ public class IntroR2dbc {
     public static void main(String[] args) throws IOException {
         init();
 
+        runQueryWithReactor("Star Wars", "r2dbc:h2:mem:///robot_db");
+
         ConnectionFactory pgConnectionFactory = new PostgresqlConnectionFactory(
                 PostgresqlConnectionConfiguration.builder()
                         .host("localhost")
@@ -43,9 +45,8 @@ public class IntroR2dbc {
         );
 
 
-        runBatchWithReactor();
+        //runBatchWithReactor();
 
-        //runQueryWithReactor("Star Wars", "r2dbc:h2:mem:///robot_db;DB_CLOSE_DELAY=-1;");
 
         //runQueryWithReactor("R2-D2",
         //        "r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.StatementExecListener");

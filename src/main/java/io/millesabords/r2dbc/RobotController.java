@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
 
 @RestController
@@ -20,9 +21,9 @@ public class RobotController {
 
     @GetMapping(value = "/robot-stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Robot> getRobotStream() {
-        //Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
-        //return Flux.zip(robotRepository.findAll(), interval, (robot, time) -> robot);
-        return repositoryExample.findAll();
+        Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
+        return Flux.zip(repositoryExample.findAll(), interval, (robot, time) -> robot);
+        //return repositoryExample.findAll();
     }
 
     @GetMapping("/robots")
@@ -38,7 +39,7 @@ public class RobotController {
     @PostMapping("/robot-movie")
     public Mono<Void> create(@RequestParam String name, @RequestParam String movie,
                               @RequestParam String director) {
-        return repositoryExample.createAgainRobotAndMovie(name, movie, director);
+        return repositoryExample.createRobotAndMovie(name, movie, director);
     }
 
     @GetMapping("/movies")

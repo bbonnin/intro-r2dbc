@@ -40,7 +40,7 @@ public class RepositoryExample {
                 //.as(rxtx::transactional)
                 .then(movieRepository.save(Movie.builder().title(movie).director(director).build()))
                 .then()
-                //.as(rxtx::transactional)
+                .as(rxtx::transactional)
                 ;
     }
 
