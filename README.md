@@ -20,3 +20,4 @@ Code example on how to use R2DBC
 * Entity Callback
 * [WIP] Multi-tenancy: routing factory
 
+TEST
