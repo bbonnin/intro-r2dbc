@@ -1,6 +1,6 @@
-package io.millesabords.r2dbc.base;
+package io.millesabords.r2dbc.step2;
 
-import io.millesabords.r2dbc.entity.Robot;
+import io.millesabords.r2dbc.step3.entity.Robot;
 import io.r2dbc.h2.H2ConnectionConfiguration;
 import io.r2dbc.h2.H2ConnectionFactory;
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
@@ -49,7 +49,7 @@ public class IntroR2dbc {
 
 
         //runQueryWithReactor("R2-D2",
-        //        "r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.StatementExecListener");
+        //        "r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.step5.StatementExecListener");
     }
 
     private static void runQueryWithReactor(String movie, String url) {

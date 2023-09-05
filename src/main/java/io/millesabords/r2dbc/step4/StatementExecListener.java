@@ -1,19 +1,14 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.step4;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.Timer;
-import io.micrometer.core.instrument.logging.LoggingMeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import io.r2dbc.proxy.core.QueryExecutionInfo;
-import io.r2dbc.proxy.listener.ProxyExecutionListener;
 import io.r2dbc.proxy.listener.ProxyMethodExecutionListener;
 import io.r2dbc.proxy.support.QueryExecutionInfoFormatter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.round;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;

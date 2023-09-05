@@ -1,11 +1,11 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.step3;
 
-import io.millesabords.r2dbc.entity.Movie;
-import io.millesabords.r2dbc.entity.Robot;
-import io.millesabords.r2dbc.entity.RobotWithMovie;
-import io.millesabords.r2dbc.repository.MovieRepository;
-import io.millesabords.r2dbc.repository.RobotRepository;
-import io.millesabords.r2dbc.repository.RobotWithMovieRepository;
+import io.millesabords.r2dbc.step3.entity.Movie;
+import io.millesabords.r2dbc.step3.entity.Robot;
+import io.millesabords.r2dbc.step3.entity.RobotWithMovie;
+import io.millesabords.r2dbc.step3.repository.MovieRepository;
+import io.millesabords.r2dbc.step3.repository.RobotRepository;
+import io.millesabords.r2dbc.step3.repository.RobotWithMovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.ReactiveTransactionManager;
@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class RepositoryExample {
+public class Example3ReactiveCrudRepository {
 
     private final RobotRepository robotRepository;
 

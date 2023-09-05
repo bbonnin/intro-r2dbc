@@ -1,5 +1,6 @@
 package io.millesabords.r2dbc;
 
+import io.millesabords.r2dbc.step3.Example2R2dbcEntityTemplate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import reactor.test.StepVerifier;
 public class EntityTemplateExampleTest extends AbstractRobotAppTest {
 
     @Autowired
-    private EntityTemplateExample entityTemplateExample;
+    private Example2R2dbcEntityTemplate entityTemplateExample;
 
     @Test
     public void findRobotsByNameV1_whenSearchForC3PO_then1IsExpected() {
@@ -34,7 +35,7 @@ public class EntityTemplateExampleTest extends AbstractRobotAppTest {
     public void deleteRobotsOfMovie_whenDeleteStarWars_then3IsExpected() {
         entityTemplateExample.deleteRobotsOfMovie("Star Wars").log()
                 .as(StepVerifier::create)
-                .expectNext(3)
+                .expectNext(3L)
                 .verifyComplete();
     }
 }

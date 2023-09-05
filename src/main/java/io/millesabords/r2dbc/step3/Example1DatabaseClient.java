@@ -1,17 +1,15 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.step3;
 
-import io.millesabords.r2dbc.entity.Robot;
-import io.r2dbc.spi.Statement;
+import io.millesabords.r2dbc.step3.entity.Robot;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.data.r2dbc.core.DatabaseClient;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 @Service
 @RequiredArgsConstructor
-public class DatabaseClientExample {
+public class Example1DatabaseClient {
 
     private final DatabaseClient databaseClient;
 

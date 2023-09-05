@@ -1,5 +1,6 @@
 package io.millesabords.r2dbc;
 
+import io.millesabords.r2dbc.step3.Example1DatabaseClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import reactor.test.StepVerifier;
 public class DatabaseClientExampleTest extends AbstractRobotAppTest {
 
     @Autowired
-    private DatabaseClientExample databaseClientExample;
+    private Example1DatabaseClient databaseClientExample;
 
     @Test
     public void findRobotsByName_whenSearchForR2D2_then1IsExpected() {

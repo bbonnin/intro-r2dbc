@@ -4,7 +4,7 @@ spring:
     init:
       mode: always
   r2dbc:
-    url: r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.StatementExecListener&DB_CLOSE_DELAY=-1;
+    url: r2dbc:proxy:h2:mem:///robot_db?proxyListener=io.millesabords.r2dbc.step5.StatementExecListener&DB_CLOSE_DELAY=-1;
     username: sa
 
 logging:

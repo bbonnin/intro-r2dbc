@@ -1,6 +1,6 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.step3;
 
-import io.millesabords.r2dbc.entity.Robot;
+import io.millesabords.r2dbc.step3.entity.Robot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import static org.springframework.data.relational.core.query.Query.query;
 
 @Service
 @RequiredArgsConstructor
-public class EntityTemplateExample {
+public class Example2R2dbcEntityTemplate {
 
     private final R2dbcEntityTemplate r2dbcEntityTemplate;
 
@@ -35,7 +35,7 @@ public class EntityTemplateExample {
         return r2dbcEntityTemplate.insert(robot);
     }
 
-    public Mono<Integer> deleteRobotsOfMovie(String movie) {
+    public Mono<Long> deleteRobotsOfMovie(String movie) {
         return r2dbcEntityTemplate
                 .delete(Robot.class)
                 .matching(query(where("movie").like("%" + movie + "%")))

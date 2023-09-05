@@ -1,6 +1,6 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.step3;
 
-import io.millesabords.r2dbc.entity.Robot;
+import io.millesabords.r2dbc.step3.entity.Robot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RobotController {
 
-    private final RepositoryExample repositoryExample;
+    private final Example3ReactiveCrudRepository repositoryExample;
 
     @GetMapping(value = "/robot-stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Robot> getRobotStream() {

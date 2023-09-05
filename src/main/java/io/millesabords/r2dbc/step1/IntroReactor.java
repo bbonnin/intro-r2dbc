@@ -1,4 +1,4 @@
-package io.millesabords.r2dbc.reactor;
+package io.millesabords.r2dbc.step1;
 
 import org.reactivestreams.Subscription;
 import reactor.core.publisher.BaseSubscriber;

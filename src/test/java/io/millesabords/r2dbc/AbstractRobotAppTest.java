@@ -1,9 +1,9 @@
 package io.millesabords.r2dbc;
 
-import io.millesabords.r2dbc.entity.Movie;
-import io.millesabords.r2dbc.entity.Robot;
-import io.millesabords.r2dbc.repository.MovieRepository;
-import io.millesabords.r2dbc.repository.RobotRepository;
+import io.millesabords.r2dbc.step3.entity.Movie;
+import io.millesabords.r2dbc.step3.entity.Robot;
+import io.millesabords.r2dbc.step3.repository.MovieRepository;
+import io.millesabords.r2dbc.step3.repository.RobotRepository;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.r2dbc.core.DatabaseClient;

@@ -1,4 +1,4 @@
-package io.millesabords.r2dbc;
+package io.millesabords.r2dbc.step5;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package io.millesabords.r2dbc.entity;
+package io.millesabords.r2dbc.step3.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,23 +7,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("robot")
-public class RobotWithMovie {
+@Table
+public class Movie {
 
     @Id
     private Integer id;
 
-    private String name;
+    private String title;
 
-    /* Does not work... */
-    @OneToOne
-    @JoinColumn(name = "movie", referencedColumnName = "title")
-    private Movie movie;
+    private String director;
 }
