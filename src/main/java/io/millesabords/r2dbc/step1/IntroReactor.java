@@ -1,21 +1,25 @@
 package io.millesabords.r2dbc.step1;
 
+import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscription;
 import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.util.function.Function;
+
+import static java.lang.Boolean.TRUE;
 
 public class IntroReactor {
 
     public static void main(String[] args) {
         //showFlux();
-        //showFluxAlternative();
+        showFluxAlternative();
         //showFluxWithError();
         //showFluxWithErrorHandling();
         //showMono();
-        showBackPressure();
+        //showBackPressure();
         //showBackPressureWithStrategy();
     }
 
@@ -35,11 +39,17 @@ public class IntroReactor {
 
         Flux<String> data = Flux.just("Hello", "How", "Are", "You?").log();
 
+        Publisher<?> f;
+        Function<? super Object[], ?> t;
         data
-            .doOnNext(System.out::println)                                  // Consumer
-            .doOnError((exc) -> System.err.println("=== Aaargh !! " + exc)) // Error consumer
-            .doOnComplete(() -> System.out.println("=== <Completed>"))      // Complete consumer
-            .subscribe();
+                //.doOnNext(System.out::println)                                // Consumer
+                .flatMap(s -> Mono.justOrEmpty(s.toUpperCase()))
+                .filter(s -> s.length() == 3)
+                .zipWith(Flux.just("1", "2"), (s1, s2) -> s2 + " - " + s1)
+                .doOnNext(System.out::println)
+                .doOnError((exc) -> System.err.println("=== Aaargh !! " + exc)) // Error consumer
+                .doOnComplete(() -> System.out.println("=== <Completed>"))      // Complete consumer
+                .subscribe();
 
     }
 
