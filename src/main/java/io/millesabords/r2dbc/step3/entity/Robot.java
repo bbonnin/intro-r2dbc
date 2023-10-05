@@ -20,4 +20,12 @@ public class Robot {
     private String name;
 
     private String movie;
+
+    private Integer firstMovie;
+
+    public Robot(Integer id, String name, String movie) {
+        this.id = id;
+        this.name = name;
+        this.movie = movie;
+    }
 }
