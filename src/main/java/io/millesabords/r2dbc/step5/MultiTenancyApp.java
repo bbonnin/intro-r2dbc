@@ -5,11 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
 import org.springframework.context.annotation.Profile;
 
-@SpringBootApplication(exclude = R2dbcAutoConfiguration.class)
-@Profile("multi-tenancy")
-public class MultiTenancyRobotApp {
+@SpringBootApplication(scanBasePackages = "io.millesabords.r2dbc.step5")
+public class MultiTenancyApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(MultiTenancyRobotApp.class, args);
+        SpringApplication.run(MultiTenancyApp.class, args);
     }
 }

@@ -1,4 +1,4 @@
-package io.millesabords.r2dbc.step5;
+package io.millesabords.r2dbc.step5.config;
 
 import org.springframework.r2dbc.connection.lookup.AbstractRoutingConnectionFactory;
 import reactor.core.publisher.Mono;

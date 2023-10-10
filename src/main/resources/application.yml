@@ -1,16 +1,19 @@
+server:
+  port: 8099
 
 spring:
   sql:
     init:
       mode: always
   r2dbc:
-    url: r2dbc:postgresql://localhost:15432/robot_db
-    username: postgres
-    #url: r2dbc:h2:mem:///robot_db;DB_CLOSE_DELAY=-1;
-    #username: sa
+    #url: r2dbc:postgresql://localhost:15432/robot_db
+    #username: postgres
+    url: r2dbc:h2:mem:///robot_db;DB_CLOSE_DELAY=-1;
+    username: sa
 
 logging:
   level:
     root: INFO
     org.springframework.r2dbc: DEBUG
+    com.h2database: DEBUG
     io.millesabords: DEBUG

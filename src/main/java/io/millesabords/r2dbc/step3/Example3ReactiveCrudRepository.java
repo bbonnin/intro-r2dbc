@@ -33,12 +33,12 @@ public class Example3ReactiveCrudRepository {
                 .then();
     }
 
-    public Mono<Movie> getFirstMovie(String robotName) {
+    /*public Mono<Movie> getFirstMovie(String robotName) {
         return robotRepository.findByName2(robotName)
                 .flatMap(robot -> movieRepository.findById(robot.getFirstMovie()))
                 .log()
                 .onErrorReturn(new Movie(1, "Star Wars IV", ""));
-    }
+    }*/
 
     public Mono<Void> createAgainRobotAndMovie(String name, String movie, String director) {
         TransactionalOperator rxtx = TransactionalOperator.create(transactionManager);

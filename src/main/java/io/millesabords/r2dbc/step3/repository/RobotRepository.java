@@ -10,7 +10,7 @@ public interface RobotRepository extends ReactiveCrudRepository<Robot, Long> {
 
     Flux<Robot> findByName(String name);
 
-    Mono<Robot> findByName2(String name);
+    //Mono<Robot> findByName2(String name);
 
     @Query("select name, movie from robot r where lower(r.movie) like concat('%', lower(:movie), '%')")
     Flux<Robot> findByMovie(String movie);

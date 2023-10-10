@@ -15,5 +15,6 @@
     </root>
 
     <logger name="org.springframework.r2dbc" level="DEBUG"/>
+    <logger name="com.h2database" level="DEBUG"/>
 
 </configuration>

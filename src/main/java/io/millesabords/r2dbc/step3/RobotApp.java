@@ -3,7 +3,7 @@ package io.millesabords.r2dbc.step3;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "io.millesabords.r2dbc.step3")
 //@EnableR2dbcRepositories
 public class RobotApp {
 

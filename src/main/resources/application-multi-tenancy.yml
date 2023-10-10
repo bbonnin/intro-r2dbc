@@ -1,16 +1,30 @@
-db:
-  url-suffix: h2:mem:///robot_db;DB_CLOSE_DELAY=-1;
-  username: sa
-  #url-suffix: postgresql://localhost:15432/robot_db
-  #username: postgres
+app:
+  db:
+    url-suffix: h2:mem:///multi_tenants_db;DB_CLOSE_DELAY=-1;
+    username: sa
+    password:
+    #url-suffix: postgresql://localhost:15432/multi_tenants_db
+    #username: postgres
+  tenants: REBEL_ALLIANCE, GALACTIC_EMPIRE
 
 spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   sql:
     init:
-      mode: always
+      mode: never
   r2dbc:
-    url: r2dbc:${db.url-suffix}
-    username: ${db.username}
+    url: r2dbc:${app.db.url-suffix}
+    username: ${app.db.username}
+    password: ${app.db.password}
+  flyway:
+    enabled: false
+    url: jdbc:${app.db.url-suffix}
+    user: ${app.db.username}
+    locations:
+      - classpath:multi-tenancy/db/migration
 
 logging:
   level:
